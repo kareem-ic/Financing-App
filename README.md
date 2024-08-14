@@ -1,2 +1,3 @@
 # Financing-App
 Finance/Budgeting App
+My finance/budgeting web application is designed to help users reach their financial goals by guiding them in the optimal distribution of their income. It analyzes users' earnings, expenditures, and savings patterns, then offers a personalized budget plan. The application highlights key spending categories such as essentials (housing, utilities, groceries), savings, investments, and discretionary expenses. By setting realistic financial targets, it encourages users to allocate their money effectively, providing insights and adjustments as needed to keep them on track. This approach empowers users to make informed financial decisions, fostering a secure and prosperous financial future.

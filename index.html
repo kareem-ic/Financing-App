@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financifier</title>
+    <title>Coincise</title>
     <link rel="stylesheet" href="style.css">
 
 
@@ -16,36 +16,57 @@
 
 
     <nav id ="navigation">
-        <div id = "logo">Financifier</div>
+        <div id = "logo">Coincise</div>
         <div class="items"><a href="#main_1">About</a></div>
         <div class="items"><a href="#calculator">Budget Calculator</a></div>
         <div class="items"><a href="#goals">Goals</a></div>
+        <div class="items"><a href="#contact">Contact</a></div>
     </nav>
     <br>
     <div id="main_img">
        <h1 id="main_1">ABOUT THIS WEBSITE</h1>
     </div>
    
-    <div id="main_text">Financifier allows users of all ages to effectively budget their finances. People with poor financial management skills may have difficulty purchasing a home, a car, or any other aspiration. Financifier assists users in identifying strategies that will enable them to achieve their objectives.
-        The primary goals of Financifier are centralized on the benefits of all that choose to use the new app. We strive to enhance the experinces of new users through our attempts to educate the public on personal finance. Another very important goal of ours is to help those in financial hardships manage their money. Specifically, this will help them understand how much money they should set aside for savings, pocket-spending, and essentials/taxes.
-        Lastly, due to our budget app's highly innovative features, any user can easily find success in a short period of time. The app allows the user to receive instant financial advice, which leads to better overall money management. The app is designed to be useful/impactful to people of all ages, and we are competing with accountants who may be costly to hire. Financifier will be available at a low cost when it is released proving itself to be a cheaper alternative to hiring an accountant. For these various reasons, Financifier proves to be a cut above the rest. </div>
+    <div id="main_text">Coincise allows users of all ages to effectively budget their finances. People with poor financial management skills may have difficulty purchasing a home, a car, or any other aspiration. Coincise assists users in identifying strategies that will enable them to achieve their objectives.
+        The primary goals of Coincise are centralized on the benefits of all that choose to use the new app. We strive to enhance the experiences of new users through our attempts to educate the public on personal finance. Another very important goal of ours is to help those in financial hardships manage their money. Specifically, this will help them understand how much money they should set aside for savings, pocket-spending, and essentials/taxes.
+        Lastly, due to our budget app's highly innovative features, any user can easily find success in a short period of time. The app allows the user to receive instant financial advice, which leads to better overall money management. The app is designed to be useful/impactful to people of all ages, and we are competing with accountants who may be costly to hire. Coincise will be available at a low cost when it is released proving itself to be a cheaper alternative to hiring an accountant. For these various reasons, Coincise proves to be a cut above the rest. </div>
         <!-- THIS IS WHERE WE WILL WRITE DESCRIPTIONS ABOUT OUR WEBSITE -->
 
 
     <div id="calculator">
+        <!-- Subheading and image for the Budget Calculator section -->
         <div class="main_img_2">
             <h1 class="main_2">Budget Calculator</h1>
          </div>
-   
+   <!-- Form for user to input their monthly income and calculate their budget -->
 
 
         <form id="form-container">
+            <!-- Input field for user's monthly income -->
             <input
                 id="income"
                 type="number"
                 placeholder="Your Monthly Income"
                 />
-                <button id="submit-btn">Calculate!</button>
+                <!-- Button to submit the income and perform calculations -->
+                <button id="submit-btn" class="my-button">Calculate!</button>
+                <style>
+                    .my-button {
+                      background-color: rgb(42, 187, 213);
+                      color: white;
+                      padding: 10px 20px;
+                      border: none;
+                      border-radius: 5px;
+                      cursor: pointer;
+                    }
+                  </style>
+                  
+                <!-- <button class="bg-blue-500 text-blue-50 p-2 rounded-lg hover:bg-blue-400">Calculate</button> -->
+                <!-- <button type="button" class="btn btn-primary"
+                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+          Calculate
+        </button>                 -->
+        <!-- Section to display calculated financial allocations (Needs, Wants, Savings) -->
         <div id="needs_main">
             <h3 id = "needs">Needs: </h3>
             <p id="needs_txt"></p>
@@ -62,35 +83,40 @@
 
 
     </div>
-    div id="goals">
+    <!-- Goals Section where users can set and track their financial goals -->
+    <div id="goals">
     <div class="main_img_2">
         <h1 class="main_2">Goals</h1>
      </div>
 
+     <div id="contact">
+     </div>
 
+<!-- Form for users to input and track items they want to buy and their costs -->
 <form id="goals-form">
+    <!-- Input field for item the user wants to buy -->
     <input
         id="stuff"
         type="text"
         placeholder="Item That You Want to Buy"
     />
 
-
+<!-- Input field for the price of the item -->
     <input
         id="price_stuff"
         type="number"
         placeholder="Price of Item"
     />
-   
+   <!-- Section to display the total cost of all items the user has added -->
     <div id="max-goal">
         <h3 id="fixed_cost">Total Cost: </h3>
         <h3 id="total_cost"></h3>
     </div>  
 
 
-    <button id="submit-btn_2">Add Item</button>
-    <button id="submit-btn_3">Update Cost</button>
-    <button id="submit-btn_4">Reset Cost</button>
+    <button id="submit-btn_2" class="my-button">Add Item</button>
+    <button id="submit-btn_3" class="my-button">Update Cost</button>
+    <button id="submit-btn_4" class="my-button">Reset Cost</button>
 
 
 </form>
@@ -99,37 +125,25 @@
 <section id="user-container">
 </section>
 
-
+<!-- Contact Section for user inquiries and additional resources -->
 <form id="help-form">
-    <div id="contact_text">Feel free to contact us via email if you care to learn more about our website!
+    <div id="contact_text">Feel free to contact via email if you care to learn more about the website!
         <br>
         <br>
-        You can reach us through these emails:
+        You can reach me through my email:
         <br>
         <br>
         Kclarke11506@gmail.com
+        
+        Also if you would like to learn more about Nonprofit Finances, feel free to utilize these websites:
         <br>
         <br>
-        mrmahibrahman@gmail.com
-        <br>
-        <br>
-        ashah2023@queensinquiry.com
-        <br>
-        <br>
-        Also if you would like to learn more about Nonprofit Financials, feel free to utilize these websites:
-        <br>
-        <br>
-        <a href="https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwjb-4O_2Mv5AhUCuMgKHTUCBusYABAFGgJxdQ&ohost=www.google.com&cid=CAESbeD2pfWJKIJtzIXp5fEYycTT1d5Zm2qRrlYaU3sCNv6pqfWWieF-JBdh8AMKg_-9gkTtHEjknJ-skz_2n8FXJn6_72gaSkJktLOCdlPEFuW9yWI4PbLIfCMBRKA1F0814WUJaQSkKi5tFtZ6jrs&sig=AOD64_3tokre-fnv1HqrZZTgTRzffrMeNg&q&adurl&ved=2ahUKEwjQjPm-2Mv5AhV8hIkEHRT0CzQQ0Qx6BAgDEAE">
-            Google Ad Services Link 1
-        </a>
-        <br>
-        <a href="https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwjb-4O_2Mv5AhUCuMgKHTUCBusYABACGgJxdQ&ohost=www.google.com&cid=CAESbeD2pfWJKIJtzIXp5fEYycTT1d5Zm2qRrlYaU3sCNv6pqfWWieF-JBdh8AMKg_-9gkTtHEjknJ-skz_2n8FXJn6_72gaSkJktLOCdlPEFuW9yWI4PbLIfCMBRKA1F0814WUJaQSkKi5tFtZ6jrs&sig=AOD64_0pn5pa54_KdE2kW3D8pFZWzHv14A&q&adurl&ved=2ahUKEwjQjPm-2Mv5AhV8hIkEHRT0CzQQ0Qx6BAgCEAE">
-            Google Ad Services Link 2
-        </a>
-        <br>
-        <a href="https://www.googleadservices.com/pagead/aclk?sa=L&ai=DChcSEwjb-4O_2Mv5AhUCuMgKHTUCBusYABAEGgJxdQ&ohost=www.google.com&cid=CAESbeD2pfWJKIJtzIXp5fEYycTT1d5Zm2qRrlYaU3sCNv6pqfWWieF-JBdh8AMKg_-9gkTtHEjknJ-skz_2n8FXJn6_72gaSkJktLOCdlPEFuW9yWI4PbLIfCMBRKA1F0814WUJaQSkKi5tFtZ6jrs&sig=AOD64_18dKQmxW-6UtrxX9sBogadfKT6Yg&q&adurl&ved=2ahUKEwjQjPm-2Mv5AhV8hIkEHRT0CzQQ0Qx6BAgEEAE">
-            Google Ad Services Link 3
-        </a>
+        <!-- External link to a financial resource -->
+        <a class="icon-link icon-link-hover" style="--bs-link-hover-color-rgb: 25, 135, 84;" href="https://www.nonprofitready.org/nonprofit-finance-courses">
+            Google Ad Services
+            <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>
+          </a>
+        
     </div>
    
     </form>

@@ -242,3 +242,131 @@ function formatCurrency(amount) {
         maximumFractionDigits: 2
     }).format(amount);
 }
+
+// Goals Tracking
+document.addEventListener('DOMContentLoaded', function() {
+    const goalForm = document.getElementById('goal-form');
+    const goalsContainer = document.getElementById('goals-container');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    
+    // Load goals from localStorage
+    let goals = JSON.parse(localStorage.getItem('goals')) || [];
+    
+    if (goalForm) {
+        goalForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newGoal = {
+                id: Date.now(),
+                name: document.getElementById('goal-name').value,
+                targetAmount: parseFloat(document.getElementById('goal-amount').value),
+                currentAmount: 0,
+                deadline: document.getElementById('goal-deadline').value,
+                category: document.getElementById('goal-category').value,
+                createdAt: new Date().toISOString()
+            };
+            
+            goals.push(newGoal);
+            saveGoals();
+            renderGoals();
+            goalForm.reset();
+        });
+    }
+    
+    // Filter buttons functionality
+    if (filterButtons.length > 0) {
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter goals
+                const filteredGoals = filter === 'all' 
+                    ? goals 
+                    : goals.filter(goal => goal.category === filter);
+                
+                renderGoals(filteredGoals);
+            });
+        });
+    }
+    
+    // Render goals
+    function renderGoals(goalsToRender = goals) {
+        if (!goalsContainer) return;
+        
+        goalsContainer.innerHTML = '';
+        const template = document.getElementById('goal-template');
+        
+        goalsToRender.forEach(goal => {
+            const goalElement = template.content.cloneNode(true);
+            
+            // Set goal details
+            goalElement.querySelector('.goal-name').textContent = goal.name;
+            goalElement.querySelector('.goal-category').textContent = goal.category;
+            goalElement.querySelector('.goal-deadline').textContent = `Target: ${formatDate(goal.deadline)}`;
+            
+            // Set progress
+            const progress = (goal.currentAmount / goal.targetAmount) * 100;
+            goalElement.querySelector('.progress-fill').style.width = `${Math.min(progress, 100)}%`;
+            goalElement.querySelector('.current-amount').textContent = formatCurrency(goal.currentAmount);
+            goalElement.querySelector('.target-amount').textContent = `of ${formatCurrency(goal.targetAmount)}`;
+            
+            // Add event listeners
+            const updateBtn = goalElement.querySelector('.update-progress-btn');
+            const deleteBtn = goalElement.querySelector('.delete-goal-btn');
+            
+            updateBtn.addEventListener('click', () => updateGoalProgress(goal.id));
+            deleteBtn.addEventListener('click', () => deleteGoal(goal.id));
+            
+            goalsContainer.appendChild(goalElement);
+        });
+    }
+    
+    // Update goal progress
+    function updateGoalProgress(goalId) {
+        const goal = goals.find(g => g.id === goalId);
+        if (!goal) return;
+        
+        const newAmount = prompt('Enter new amount saved:', goal.currentAmount);
+        if (newAmount === null) return;
+        
+        const amount = parseFloat(newAmount);
+        if (isNaN(amount) || amount < 0) {
+            alert('Please enter a valid amount');
+            return;
+        }
+        
+        goal.currentAmount = amount;
+        saveGoals();
+        renderGoals();
+    }
+    
+    // Delete goal
+    function deleteGoal(goalId) {
+        if (confirm('Are you sure you want to delete this goal?')) {
+            goals = goals.filter(g => g.id !== goalId);
+            saveGoals();
+            renderGoals();
+        }
+    }
+    
+    // Save goals to localStorage
+    function saveGoals() {
+        localStorage.setItem('goals', JSON.stringify(goals));
+    }
+    
+    // Format date
+    function formatDate(dateString) {
+        return new Date(dateString).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+    }
+    
+    // Initial render
+    renderGoals();
+});

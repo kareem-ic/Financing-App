@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Goals - Coincise</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav id="navigation">
+        <div id="logo">Coincise</div>
+        <div class="items">
+            <a href="../index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="calculator.html">Budget Calculator</a>
+            <a href="goals.html">Goals</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px; padding: 2rem;">
+        <div class="container">
+            <h1>Track Your Financial Goals</h1>
+            
+            <!-- Add New Goal Form -->
+            <section class="goals-form-section">
+                <h2>Create New Goal</h2>
+                <form id="goal-form" class="goal-form">
+                    <div class="form-group">
+                        <label for="goal-name">Goal Name</label>
+                        <input type="text" id="goal-name" placeholder="e.g., New Laptop, Emergency Fund" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-amount">Target Amount ($)</label>
+                        <input type="number" id="goal-amount" placeholder="Enter target amount" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-deadline">Target Date</label>
+                        <input type="date" id="goal-deadline" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="goal-category">Category</label>
+                        <select id="goal-category" required>
+                            <option value="">Select a category</option>
+                            <option value="education">Education</option>
+                            <option value="emergency">Emergency Fund</option>
+                            <option value="purchase">Major Purchase</option>
+                            <option value="debt">Debt Repayment</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="calculator-btn">Add Goal</button>
+                </form>
+            </section>
+
+            <!-- Goals List Section -->
+            <section class="goals-list-section">
+                <h2>Your Goals</h2>
+                <div class="goals-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="education">Education</button>
+                    <button class="filter-btn" data-filter="emergency">Emergency</button>
+                    <button class="filter-btn" data-filter="purchase">Purchase</button>
+                    <button class="filter-btn" data-filter="debt">Debt</button>
+                    <button class="filter-btn" data-filter="other">Other</button>
+                </div>
+                
+                <div id="goals-container" class="goals-grid">
+                    <!-- Goals will be dynamically added here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Goal Template -->
+    <template id="goal-template">
+        <div class="goal-card">
+            <div class="goal-header">
+                <h3 class="goal-name"></h3>
+                <span class="goal-category"></span>
+            </div>
+            <div class="goal-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-stats">
+                    <span class="current-amount">$0</span>
+                    <span class="target-amount">of $0</span>
+                </div>
+            </div>
+            <div class="goal-details">
+                <p class="goal-deadline"></p>
+                <div class="goal-actions">
+                    <button class="update-progress-btn">Update Progress</button>
+                    <button class="delete-goal-btn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="../main.js"></script>
+</body>
+</html> 

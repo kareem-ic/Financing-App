@@ -20,14 +20,13 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     background-color: white;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: fixed;
     top: 0;
     z-index: 1000;
 }
-
 
 #logo {
     font-size: 1.5rem;
@@ -39,6 +38,7 @@ nav {
 .items {
     display: flex;
     gap: 2rem;
+    margin-right: 2vw;
 }
 
 a {
@@ -55,13 +55,69 @@ a:hover {
     background-color: #f3f4f6;
 }
 
-/* Mobile Responsive Design */
+/* Dark mode styles */
+body.dark-mode {
+    background-color: #18181b;
+    color: #f3f4f6;
+}
+
+body.dark-mode nav {
+    background: rgba(24,24,27,0.85);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.24);
+}
+
+body.dark-mode #logo {
+    color: #60a5fa;
+}
+
+body.dark-mode a {
+    color: #f3f4f6;
+}
+
+body.dark-mode a:hover {
+    color: #60a5fa;
+    background: #27272a;
+}
+
+/* Dark mode for other elements can be added as needed */
+
+/* Navbar dark mode toggle button */
+.dark-mode-toggle {
+    margin-left: 2.5rem;
+    margin-right: 0;
+}
+
+.dark-mode-toggle:hover {
+    color: #2563eb;
+    background: #f3f4f6;
+}
+
+body.dark-mode .dark-mode-toggle {
+    color: #f3f4f6;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+    color: #60a5fa;
+    background: #27272a;
+}
+
+@media (max-width: 1024px) {
+    nav {
+        padding: 0.25rem 0.5rem;
+    }
+    .items {
+        gap: 1rem;
+    }
+    #logo {
+        font-size: 1.1rem;
+    }
+}
+
 @media (max-width: 768px) {
     nav {
         flex-direction: column;
         padding: 1rem;
     }
-    
     .items {
         flex-direction: column;
         gap: 1rem;
@@ -69,7 +125,6 @@ a:hover {
         text-align: center;
         margin-top: 1rem;
     }
-    
     a {
         display: block;
         padding: 0.75rem;

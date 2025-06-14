@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Coincise</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="Email" required><br>
+      <input type="password" id="login-password" placeholder="Password" required><br>
+      <button type="submit">Login</button>
+    </form>
+    <div id="login-message"></div>
+  </div>
+  <script type="module">
+    import { auth } from '../firebase.js';
+    import { signInWithEmailAndPassword } from 'firebase/auth';
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value;
+      const password = document.getElementById('login-password').value;
+      const msg = document.getElementById('login-message');
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        msg.textContent = 'Login successful! Redirecting...';
+        msg.style.color = 'green';
+        setTimeout(() => window.location.href = '../index.html', 1000);
+      } catch (error) {
+        msg.textContent = error.message;
+        msg.style.color = 'red';
+      }
+    });
+  </script>
+</body>
+</html> 

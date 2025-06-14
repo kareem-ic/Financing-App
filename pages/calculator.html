@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Calculator - Coincise</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <nav id="navigation">
+        <div id="logo">Coincise</div>
+        <div class="items">
+            <a href="../index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="calculator.html">Budget Calculator</a>
+            <a href="goals.html">Goals</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <main style="margin-top: 80px; padding: 2rem;">
+        <div class="container">
+            <h1>Financial Calculators</h1>
+            
+            <div class="calculator-grid">
+                <!-- Budget Calculator Section -->
+                <section class="calculator-section">
+                    <h2>50/30/20 Budget Calculator</h2>
+                    <p>Use this calculator to divide your income into needs (50%), wants (30%), and savings (20%).</p>
+                    
+                    <form id="budget-form" class="calculator-form">
+                        <div class="form-group">
+                            <label for="income">Monthly Income ($)</label>
+                            <input type="number" id="income" placeholder="Enter your monthly income" required>
+                        </div>
+                        
+                        <button type="submit" class="calculator-btn">Calculate Budget</button>
+                        
+                        <div class="results" id="budget-results">
+                            <div class="result-card">
+                                <h3>Needs (50%)</h3>
+                                <p id="needs-amount">$0.00</p>
+                                <small>Housing, utilities, groceries, etc.</small>
+                            </div>
+                            <div class="result-card">
+                                <h3>Wants (30%)</h3>
+                                <p id="wants-amount">$0.00</p>
+                                <small>Entertainment, dining out, shopping, etc.</small>
+                            </div>
+                            <div class="result-card">
+                                <h3>Savings (20%)</h3>
+                                <p id="savings-amount">$0.00</p>
+                                <small>Emergency fund, investments, etc.</small>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Student Loan Calculator Section -->
+                <section class="calculator-section">
+                    <h2>Student Loan Calculator</h2>
+                    <p>Calculate your estimated monthly payments and total interest on your student loans.</p>
+                    
+                    <form id="loan-form" class="calculator-form">
+                        <div class="form-group">
+                            <label for="loan-amount">Loan Amount ($)</label>
+                            <input type="number" id="loan-amount" placeholder="Enter total loan amount" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest-rate">Interest Rate (%)</label>
+                            <input type="number" id="interest-rate" step="0.01" placeholder="Enter interest rate" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loan-term">Loan Term (Years)</label>
+                            <input type="number" id="loan-term" placeholder="Enter loan term" required>
+                        </div>
+                        
+                        <button type="submit" class="calculator-btn">Calculate Payments</button>
+                        
+                        <div class="results" id="loan-results">
+                            <div class="result-card">
+                                <h3>Monthly Payment</h3>
+                                <p id="monthly-payment">$0.00</p>
+                            </div>
+                            <div class="result-card">
+                                <h3>Total Interest</h3>
+                                <p id="total-interest">$0.00</p>
+                            </div>
+                            <div class="result-card">
+                                <h3>Total Cost</h3>
+                                <p id="total-cost">$0.00</p>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="../main.js"></script>
+</body>
+</html> 

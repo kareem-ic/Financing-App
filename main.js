@@ -178,3 +178,67 @@ function submitForm3(event) {
     reset_variable = 0;
     totalCost.innerHTML = 0;
 }
+
+// Budget Calculator
+document.addEventListener('DOMContentLoaded', function() {
+    const budgetForm = document.getElementById('budget-form');
+    const loanForm = document.getElementById('loan-form');
+
+    if (budgetForm) {
+        budgetForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const income = parseFloat(document.getElementById('income').value);
+            
+            if (isNaN(income) || income <= 0) {
+                alert('Please enter a valid income amount');
+                return;
+            }
+
+            const needs = income * 0.5;
+            const wants = income * 0.3;
+            const savings = income * 0.2;
+
+            document.getElementById('needs-amount').textContent = formatCurrency(needs);
+            document.getElementById('wants-amount').textContent = formatCurrency(wants);
+            document.getElementById('savings-amount').textContent = formatCurrency(savings);
+        });
+    }
+
+    if (loanForm) {
+        loanForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const loanAmount = parseFloat(document.getElementById('loan-amount').value);
+            const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
+            const loanTerm = parseFloat(document.getElementById('loan-term').value);
+
+            if (isNaN(loanAmount) || isNaN(interestRate) || isNaN(loanTerm) || 
+                loanAmount <= 0 || interestRate <= 0 || loanTerm <= 0) {
+                alert('Please enter valid values for all fields');
+                return;
+            }
+
+            // Calculate monthly payment using the loan payment formula
+            const monthlyRate = interestRate / 12;
+            const numberOfPayments = loanTerm * 12;
+            const monthlyPayment = (loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
+                                 (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+            
+            const totalCost = monthlyPayment * numberOfPayments;
+            const totalInterest = totalCost - loanAmount;
+
+            document.getElementById('monthly-payment').textContent = formatCurrency(monthlyPayment);
+            document.getElementById('total-interest').textContent = formatCurrency(totalInterest);
+            document.getElementById('total-cost').textContent = formatCurrency(totalCost);
+        });
+    }
+});
+
+// Helper function to format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(amount);
+}

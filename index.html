@@ -4,153 +4,109 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coincise</title>
+    <title>Coincise - Your Financial Journey Starts Here</title>
     <link rel="stylesheet" href="style.css">
-
-
     <script src="main.js" defer></script>
-
-
 </head>
 <body>
-
-
-    <nav id ="navigation">
-        <div id = "logo">Coincise</div>
-        <div class="items"><a href="pages/about.html">About</a></div>
-        <div class="items"><a href="pages/calculator.html">Budget Calculator</a></div>
-        <div class="items"><a href="pages/goals.html">Goals</a></div>
-        <div class="items"><a href="pages/contact.html">Contact</a></div>
-    </nav>
-    <br>
-    <div id="main_img">
-       <h1 id="main_1">ABOUT THIS WEBSITE</h1>
-    </div>
-   
-    <div id="main_text">Coincise allows users of all ages to effectively budget their finances. People with poor financial management skills may have difficulty purchasing a home, a car, or any other aspiration. Coincise assists users in identifying strategies that will enable them to achieve their objectives.
-        The primary goals of Coincise are centralized on the benefits of all that choose to use the new app. We strive to enhance the experiences of new users through our attempts to educate the public on personal finance. Another very important goal of ours is to help those in financial hardships manage their money. Specifically, this will help them understand how much money they should set aside for savings, pocket-spending, and essentials/taxes.
-        Lastly, due to our budget app's highly innovative features, any user can easily find success in a short period of time. The app allows the user to receive instant financial advice, which leads to better overall money management. The app is designed to be useful/impactful to people of all ages, and we are competing with accountants who may be costly to hire. Coincise will be available at a low cost when it is released proving itself to be a cheaper alternative to hiring an accountant. For these various reasons, Coincise proves to be a cut above the rest. </div>
-        <!-- THIS IS WHERE WE WILL WRITE DESCRIPTIONS ABOUT OUR WEBSITE -->
-
-
-    <div id="calculator">
-        <!-- Subheading and image for the Budget Calculator section -->
-        <div class="main_img_2">
-            <h1 class="main_2">Budget Calculator</h1>
-         </div>
-   <!-- Form for user to input their monthly income and calculate their budget -->
-
-
-        <form id="form-container">
-            <!-- Input field for user's monthly income -->
-            <input
-                id="income"
-                type="number"
-                placeholder="Your Monthly Income"
-                />
-                <!-- Button to submit the income and perform calculations -->
-                <button id="submit-btn" class="my-button">Calculate!</button>
-                <style>
-                    .my-button {
-                      background-color: rgb(42, 187, 213);
-                      color: white;
-                      padding: 10px 20px;
-                      border: none;
-                      border-radius: 5px;
-                      cursor: pointer;
-                    }
-                  </style>
-                  
-                <!-- <button class="bg-blue-500 text-blue-50 p-2 rounded-lg hover:bg-blue-400">Calculate</button> -->
-                <!-- <button type="button" class="btn btn-primary"
-                style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-          Calculate
-        </button>                 -->
-        <!-- Section to display calculated financial allocations (Needs, Wants, Savings) -->
-        <div id="needs_main">
-            <h3 id = "needs">Needs: </h3>
-            <p id="needs_txt"></p>
+    <nav id="navigation">
+        <div id="logo">Coincise</div>
+        <div class="items">
+            <a href="index.html">Home</a>
+            <a href="pages/about.html">About</a>
+            <a href="pages/calculator.html">Budget Calculator</a>
+            <a href="pages/goals.html">Goals</a>
+            <a href="pages/contact.html">Contact</a>
         </div>
+    </nav>
 
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Take Control of Your Financial Future</h1>
+            <p class="hero-subtitle">The smart way to manage your money as a student</p>
+            <div class="hero-features">
+                <div class="feature">
+                    <span class="feature-icon">📊</span>
+                    <span>Smart Budgeting</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🎯</span>
+                    <span>Goal Tracking</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">📱</span>
+                    <span>Student-Friendly</span>
+                </div>
+            </div>
+            <div class="hero-cta">
+                <a href="pages/calculator.html" class="cta-button primary">Start Budgeting</a>
+                <a href="pages/about.html" class="cta-button secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="floating-card card-1">
+                <div class="card-content">
+                    <h3>50/30/20 Rule</h3>
+                    <p>Smart budgeting for students</p>
+                </div>
+            </div>
+            <div class="floating-card card-2">
+                <div class="card-content">
+                    <h3>Track Goals</h3>
+                    <p>Save for what matters</p>
+                </div>
+            </div>
+            <div class="floating-card card-3">
+                <div class="card-content">
+                    <h3>Student Loans</h3>
+                    <p>Plan your payments</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            <h3 id="wants">Wants: </h3>
-            <p id="wants_txt"></p>
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="features-section">
+            <h2>Why Choose Coincise?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>Student-Focused</h3>
+                    <p>Tools and resources designed specifically for college students and young adults.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Easy to Use</h3>
+                    <p>Simple, intuitive interface that makes financial management straightforward.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Smart Planning</h3>
+                    <p>Advanced calculators and tools to help you make informed financial decisions.</p>
+                </div>
+            </div>
+        </section>
+    </main>
 
-
-            <h3 id="savings">Savings:</h3>
-            <p id="savings_txt"></p>
-        </form>
-
-
-    </div>
-    <!-- Goals Section where users can set and track their financial goals -->
-    <div id="goals">
-    <div class="main_img_2">
-        <h1 class="main_2">Goals</h1>
-     </div>
-
-     <div id="contact">
-     </div>
-
-<!-- Form for users to input and track items they want to buy and their costs -->
-<form id="goals-form">
-    <!-- Input field for item the user wants to buy -->
-    <input
-        id="stuff"
-        type="text"
-        placeholder="Item That You Want to Buy"
-    />
-
-<!-- Input field for the price of the item -->
-    <input
-        id="price_stuff"
-        type="number"
-        placeholder="Price of Item"
-    />
-   <!-- Section to display the total cost of all items the user has added -->
-    <div id="max-goal">
-        <h3 id="fixed_cost">Total Cost: </h3>
-        <h3 id="total_cost"></h3>
-    </div>  
-
-
-    <button id="submit-btn_2" class="my-button">Add Item</button>
-    <button id="submit-btn_3" class="my-button">Update Cost</button>
-    <button id="submit-btn_4" class="my-button">Reset Cost</button>
-
-
-</form>
-
-
-<section id="user-container">
-</section>
-
-<!-- Contact Section for user inquiries and additional resources -->
-<form id="help-form">
-    <div id="contact_text">Feel free to contact via email if you care to learn more about the website!
-        <br>
-        <br>
-        You can reach me through my email:
-        <br>
-        <br>
-        Kclarke11506@gmail.com
-        
-        Also if you would like to learn more about Nonprofit Finances, feel free to utilize these websites:
-        <br>
-        <br>
-        <!-- External link to a financial resource -->
-        <a class="icon-link icon-link-hover" style="--bs-link-hover-color-rgb: 25, 135, 84;" href="https://www.nonprofitready.org/nonprofit-finance-courses">
-            Google Ad Services
-            <svg class="bi" aria-hidden="true"><use xlink:href="#arrow-right"></use></svg>
-          </a>
-        
-    </div>
-   
-    </form>
-
-
-</div>
-
-
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Coincise</h4>
+                <p>Your financial journey starts here</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="pages/about.html">About</a>
+                <a href="pages/calculator.html">Calculator</a>
+                <a href="pages/goals.html">Goals</a>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <a href="pages/contact.html">Get in Touch</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Coincise. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

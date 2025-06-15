@@ -1,2 +1,23 @@
-.env 
+# Node, Python, and environment files
+.env
+.env.*
+*.env
+
+# Firebase Admin SDK credentials
+backend/*.json
+backend/coincise-c104e-firebase-adminsdk-*.json
+
+# Python cache and virtual environment
+__pycache__/
+*.pyc
+venv/
+env/
+
+# macOS system files
+.DS_Store
+
+# VSCode settings (optional)
+.vscode/
+
+# passwords.txt (if you used it for BFG)
 passwords.txt

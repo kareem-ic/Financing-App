@@ -39,6 +39,72 @@ nav {
     display: flex;
     gap: 2rem;
     margin-right: 2vw;
+    align-items: center;
+}
+
+/* Tighter grouping for auth buttons */
+.nav-auth,
+.nav-signup {
+    margin-left: 0.25rem;
+    margin-right: 0;
+}
+
+/* Auth form styles (login & signup) */
+.auth-container {
+    max-width: 400px;
+    margin: 5rem auto 0 auto;
+    background: #fff;
+    padding: 2.5rem 2rem 2rem 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 16px rgba(37,99,235,0.07), 0 1.5px 4px rgba(0,0,0,0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.auth-container h2 {
+    color: #1e293b;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+}
+.auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+.auth-form input {
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+.auth-form input:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 2px #2563eb22;
+}
+.auth-form button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 0.5rem;
+}
+.auth-form button:hover {
+    background: #1d4ed8;
+}
+.auth-message {
+    margin-top: 1rem;
+    font-size: 1rem;
+    min-height: 1.5rem;
+    text-align: center;
 }
 
 a {
@@ -1060,4 +1126,67 @@ body.dark-mode .dark-mode-toggle:hover {
     .social-links {
         flex-wrap: wrap;
     }
+}
+
+.nav-auth {
+    font-weight: 500;
+    color: #2563eb;
+    background: none;
+    border: none;
+    padding: 0.375rem 1rem;
+    border-radius: 0.375rem;
+    transition: background 0.2s, color 0.2s;
+    margin-left: 0.5rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    height: 2.25rem;
+    line-height: 1.25rem;
+}
+
+.nav-auth:hover {
+    background: #f3f4f6;
+    color: #1e293b;
+}
+
+.nav-signup {
+    background: none;
+    color: #2563eb !important;
+    border-radius: 0.375rem;
+    padding: 0.375rem 1rem;
+    margin-left: 0.5rem;
+    font-weight: 500;
+    box-shadow: none;
+    transition: background 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    height: 2.25rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.nav-signup:hover {
+    background: #f3f4f6;
+    color: #1e293b !important;
+}
+
+.auth-back-btn {
+    align-self: flex-start;
+    margin-bottom: 1.25rem;
+    color: #2563eb;
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: 500;
+    background: none;
+    border: none;
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    transition: background 0.2s, color 0.2s;
+    display: inline-block;
+}
+.auth-back-btn:hover {
+    background: #f3f4f6;
+    color: #1e293b;
 }

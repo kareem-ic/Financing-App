@@ -542,13 +542,10 @@ function AppLayout(): React.JSX.Element {
       {showAI && (
         <>
           <button
-            style={{
-              position: 'fixed', bottom: '2rem', right: '2rem', zIndex: 1000,
-              background: '#2563eb', color: '#fff', border: 'none', borderRadius: '50%',
-              width: '56px', height: '56px', fontSize: '2rem', boxShadow: '0 4px 16px rgba(37,99,235,0.15)'
-            }}
+            className="ai-chat-button"
             onClick={() => setAiOpen(true)}
-            aria-label="Ask AI"
+            aria-label="Ask AI Financial Assistant"
+            title="Chat with AI Financial Assistant"
           >
             💬
           </button>

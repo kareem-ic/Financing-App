@@ -1,20 +1,42 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
 import './App.css'
 import AIChatModal from './components/AIChatModal'
 
-function useShowAIChat() {
+// Type definitions
+interface BudgetResult {
+  needs: number;
+  wants: number;
+  savings: number;
+}
+
+interface Goal {
+  id: string;
+  name: string;
+  targetAmount: number;
+  currentAmount: number;
+  deadline: string;
+  category: 'education' | 'emergency' | 'purchase' | 'debt' | 'other';
+}
+
+interface AuthFormData {
+  email: string;
+  password: string;
+}
+
+// Custom hooks with proper typing
+function useShowAIChat(): boolean {
   const location = useLocation()
   return ["/", "/calculator", "/goals"].includes(location.pathname)
 }
 
-function useIsAuthPage() {
+function useIsAuthPage(): boolean {
   const location = useLocation()
   return ['/login', '/signup'].includes(location.pathname)
 }
 
 // Placeholder page components
-function Home() {
+function Home(): React.JSX.Element {
   return (
     <>
       {/* Hero Section */}
@@ -85,7 +107,7 @@ function Home() {
     </>
   )
 }
-function About() {
+function About(): React.JSX.Element {
   return (
     <div className="container">
       <main style={{ marginTop: '80px', padding: '2rem' }}>
@@ -125,9 +147,172 @@ function About() {
     </div>
   );
 }
-function Calculator() { return <div className="container calculator-grid"><div className="calculator-section"><h2>50/30/20 Budget Calculator</h2><p>Use this calculator to divide your income into needs (50%), wants (30%), and savings (20%).</p><form className="calculator-form"><div className="form-group"><label htmlFor="income">Monthly Income ($)</label><input type="number" id="income" placeholder="Enter your monthly income" required /></div><button type="submit" className="calculator-btn">Calculate Budget</button><div className="results"><div className="result-card"><h3>Needs (50%)</h3><p>$0.00</p><small>Housing, utilities, groceries, etc.</small></div><div className="result-card"><h3>Wants (30%)</h3><p>$0.00</p><small>Entertainment, dining out, shopping, etc.</small></div><div className="result-card"><h3>Savings (20%)</h3><p>$0.00</p><small>Emergency fund, investments, etc.</small></div></div></form></div></div>; }
-function Goals() { return <div className="container"><section className="goals-form-section"><h2>Create New Goal</h2><form className="goal-form"><div className="form-group"><label htmlFor="goal-name">Goal Name</label><input type="text" id="goal-name" placeholder="e.g., New Laptop, Emergency Fund" required /></div><div className="form-group"><label htmlFor="goal-amount">Target Amount ($)</label><input type="number" id="goal-amount" placeholder="Enter target amount" required /></div><div className="form-group"><label htmlFor="goal-deadline">Target Date</label><input type="date" id="goal-deadline" required /></div><div className="form-group"><label htmlFor="goal-category">Category</label><select id="goal-category" required><option value="">Select a category</option><option value="education">Education</option><option value="emergency">Emergency Fund</option><option value="purchase">Major Purchase</option><option value="debt">Debt Repayment</option><option value="other">Other</option></select></div><button type="submit" className="calculator-btn">Add Goal</button></form></section><section className="goals-list-section"><h2>Your Goals</h2><div className="goals-filter"><button className="filter-btn active" data-filter="all">All</button><button className="filter-btn" data-filter="education">Education</button><button className="filter-btn" data-filter="emergency">Emergency</button><button className="filter-btn" data-filter="purchase">Purchase</button><button className="filter-btn" data-filter="debt">Debt</button><button className="filter-btn" data-filter="other">Other</button></div><div className="goals-grid"><div className="goal-card"><div className="goal-header"><h3 className="goal-name">New Laptop</h3><span className="goal-category">Education</span></div><div className="goal-progress"><div className="progress-bar"><div className="progress-fill" style={{width: '40%'}}></div></div><div className="progress-stats"><span className="current-amount">$400</span><span className="target-amount">of $1000</span></div></div><div className="goal-details"><p className="goal-deadline">Target: 2025-06-01</p><div className="goal-actions"><button className="update-progress-btn">Update Progress</button><button className="delete-goal-btn">Delete</button></div></div></div></div></section></div>; }
-function Contact() {
+function Calculator(): React.JSX.Element {
+  const handleBudgetSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const income = parseFloat(formData.get('income') as string);
+    
+    if (isNaN(income) || income <= 0) {
+      alert('Please enter a valid income amount');
+      return;
+    }
+
+    const result: BudgetResult = {
+      needs: income * 0.5,
+      wants: income * 0.3,
+      savings: income * 0.2
+    };
+
+    // Update the results display
+    const needsElement = document.querySelector('.result-card:nth-child(1) p');
+    const wantsElement = document.querySelector('.result-card:nth-child(2) p');
+    const savingsElement = document.querySelector('.result-card:nth-child(3) p');
+
+    if (needsElement) needsElement.textContent = `$${result.needs.toFixed(2)}`;
+    if (wantsElement) wantsElement.textContent = `$${result.wants.toFixed(2)}`;
+    if (savingsElement) savingsElement.textContent = `$${result.savings.toFixed(2)}`;
+  };
+
+  return (
+    <div className="container calculator-grid">
+      <div className="calculator-section">
+        <h2>50/30/20 Budget Calculator</h2>
+        <p>Use this calculator to divide your income into needs (50%), wants (30%), and savings (20%).</p>
+        <form className="calculator-form" onSubmit={handleBudgetSubmit}>
+          <div className="form-group">
+            <label htmlFor="income">Monthly Income ($)</label>
+            <input type="number" id="income" name="income" placeholder="Enter your monthly income" required />
+          </div>
+          <button type="submit" className="calculator-btn">Calculate Budget</button>
+          <div className="results">
+            <div className="result-card">
+              <h3>Needs (50%)</h3>
+              <p>$0.00</p>
+              <small>Housing, utilities, groceries, etc.</small>
+            </div>
+            <div className="result-card">
+              <h3>Wants (30%)</h3>
+              <p>$0.00</p>
+              <small>Entertainment, dining out, shopping, etc.</small>
+            </div>
+            <div className="result-card">
+              <h3>Savings (20%)</h3>
+              <p>$0.00</p>
+              <small>Emergency fund, investments, etc.</small>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+function Goals(): React.JSX.Element {
+  const handleGoalSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    const newGoal: Omit<Goal, 'id'> = {
+      name: formData.get('goal-name') as string,
+      targetAmount: parseFloat(formData.get('goal-amount') as string),
+      currentAmount: 0,
+      deadline: formData.get('goal-deadline') as string,
+      category: formData.get('goal-category') as Goal['category']
+    };
+
+    // Here you would typically save to backend/localStorage
+    console.log('New goal:', newGoal);
+    alert('Goal added successfully!');
+    e.currentTarget.reset();
+  };
+
+  return (
+    <div className="container">
+      <section className="goals-form-section">
+        <h2>Create New Goal</h2>
+        <form className="goal-form" onSubmit={handleGoalSubmit}>
+          <div className="form-group">
+            <label htmlFor="goal-name">Goal Name</label>
+            <input type="text" id="goal-name" name="goal-name" placeholder="e.g., New Laptop, Emergency Fund" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="goal-amount">Target Amount ($)</label>
+            <input type="number" id="goal-amount" name="goal-amount" placeholder="Enter target amount" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="goal-deadline">Target Date</label>
+            <input type="date" id="goal-deadline" name="goal-deadline" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="goal-category">Category</label>
+            <select id="goal-category" name="goal-category" required>
+              <option value="">Select a category</option>
+              <option value="education">Education</option>
+              <option value="emergency">Emergency Fund</option>
+              <option value="purchase">Major Purchase</option>
+              <option value="debt">Debt Repayment</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button type="submit" className="calculator-btn">Add Goal</button>
+        </form>
+      </section>
+      <section className="goals-list-section">
+        <h2>Your Goals</h2>
+        <div className="goals-filter">
+          <button className="filter-btn active" data-filter="all">All</button>
+          <button className="filter-btn" data-filter="education">Education</button>
+          <button className="filter-btn" data-filter="emergency">Emergency</button>
+          <button className="filter-btn" data-filter="purchase">Purchase</button>
+          <button className="filter-btn" data-filter="debt">Debt</button>
+          <button className="filter-btn" data-filter="other">Other</button>
+        </div>
+        <div className="goals-grid">
+          <div className="goal-card">
+            <div className="goal-header">
+              <h3 className="goal-name">New Laptop</h3>
+              <span className="goal-category">Education</span>
+            </div>
+            <div className="goal-progress">
+              <div className="progress-bar">
+                <div className="progress-fill" style={{width: '40%'}}></div>
+              </div>
+              <div className="progress-stats">
+                <span className="current-amount">$400</span>
+                <span className="target-amount">of $1000</span>
+              </div>
+            </div>
+            <div className="goal-details">
+              <p className="goal-deadline">Target: 2025-06-01</p>
+              <div className="goal-actions">
+                <button className="update-progress-btn">Update Progress</button>
+                <button className="delete-goal-btn">Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+function Contact(): React.JSX.Element {
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    const contactData = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      subject: formData.get('subject') as string,
+      message: formData.get('message') as string
+    };
+
+    // Here you would typically send to backend
+    console.log('Contact form submitted:', contactData);
+    alert('Message sent successfully!');
+    e.currentTarget.reset();
+  };
+
   return (
     <div className="container">
       <main style={{ marginTop: '80px', padding: '2rem' }}>
@@ -135,18 +320,18 @@ function Contact() {
         <div className="contact-grid">
           <section className="contact-form-section">
             <h2>Send us a Message</h2>
-            <form id="contact-form" className="contact-form">
+            <form id="contact-form" className="contact-form" onSubmit={handleContactSubmit}>
               <div className="form-group">
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" placeholder="Your name" required />
+                <input type="text" id="name" name="name" placeholder="Your name" required />
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" placeholder="Your email address" required />
+                <input type="email" id="email" name="email" placeholder="Your email address" required />
               </div>
               <div className="form-group">
                 <label htmlFor="subject">Subject</label>
-                <select id="subject" required>
+                <select id="subject" name="subject" required>
                   <option value="">Select a subject</option>
                   <option value="general">General Inquiry</option>
                   <option value="support">Technical Support</option>
@@ -156,7 +341,7 @@ function Contact() {
               </div>
               <div className="form-group">
                 <label htmlFor="message">Message</label>
-                <textarea id="message" rows="5" placeholder="Your message" required></textarea>
+                <textarea id="message" name="message" rows={5} placeholder="Your message" required></textarea>
               </div>
               <button type="submit" className="contact-btn">Send Message</button>
             </form>
@@ -234,15 +419,29 @@ function Contact() {
     </div>
   );
 }
-function Login() {
+function Login(): React.JSX.Element {
+  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    const loginData: AuthFormData = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
+    };
+
+    // Here you would typically authenticate with backend
+    console.log('Login attempt:', loginData);
+    alert('Login functionality coming soon!');
+  };
+
   return (
     <div className="auth-page-wrapper">
       <Link to="/" className="auth-back-btn">← Back to Home</Link>
       <div className="auth-container">
         <h2>Login</h2>
-        <form className="auth-form">
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
+        <form className="auth-form" onSubmit={handleLoginSubmit}>
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
           <button type="submit">Login</button>
         </form>
         <p className="auth-toggle-link">
@@ -252,15 +451,29 @@ function Login() {
     </div>
   );
 }
-function SignUp() {
+function SignUp(): React.JSX.Element {
+  const handleSignUpSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    const signUpData: AuthFormData = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
+    };
+
+    // Here you would typically register with backend
+    console.log('Sign up attempt:', signUpData);
+    alert('Sign up functionality coming soon!');
+  };
+
   return (
     <div className="auth-page-wrapper">
       <Link to="/" className="auth-back-btn">← Back to Home</Link>
       <div className="auth-container">
         <h2>Sign Up</h2>
-        <form className="auth-form">
-          <input type="email" placeholder="Email" required />
-          <input type="password" placeholder="Password" required />
+        <form className="auth-form" onSubmit={handleSignUpSubmit}>
+          <input type="email" name="email" placeholder="Email" required />
+          <input type="password" name="password" placeholder="Password" required />
           <button type="submit">Sign Up</button>
         </form>
         <p className="auth-toggle-link">
@@ -271,8 +484,8 @@ function SignUp() {
   );
 }
 
-function AppLayout() {
-  const [aiOpen, setAiOpen] = useState(false)
+function AppLayout(): React.JSX.Element {
+  const [aiOpen, setAiOpen] = useState<boolean>(false)
   const showAI = useShowAIChat()
   const isAuthPage = useIsAuthPage()
 
@@ -346,7 +559,7 @@ function AppLayout() {
   )
 }
 
-function App() {
+function App(): React.JSX.Element {
   return (
     <Router>
       <AppLayout />

@@ -1138,6 +1138,29 @@ body.dark-mode .dark-mode-toggle:hover {
   color: #1e293b;
 }
 
+.nav-user {
+  color: #4b5563;
+  font-weight: 500;
+  margin-left: 1rem;
+}
+
+.nav-logout {
+  background: #ef4444;
+  color: white !important;
+  border-radius: 0.375rem;
+  padding: 0.375rem 1rem;
+  margin-left: 0.5rem;
+  font-weight: 500;
+  box-shadow: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.nav-logout:hover {
+  background: #dc2626;
+}
+
 .nav-signup {
   background: none;
   color: #2563eb !important;
@@ -1303,21 +1326,125 @@ body.dark-mode .dark-mode-toggle:hover {
   opacity: 1;
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
-  .ai-modal {
-    max-width: 95vw;
-    margin: 1rem;
-    min-height: 350px;
-  }
-  
-  .ai-chat-button {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    width: 56px;
-    height: 56px;
-    font-size: 1.25rem;
-  }
+/* Profile Form Styles */
+.profile-form-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.form-row input,
+.form-row select {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+}
+
+.profile-form input[type="text"] {
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  transition: border-color 0.2s;
+}
+
+.profile-form input[type="text"]:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+}
+
+.form-buttons {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.save-profile-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex: 1;
+}
+
+.save-profile-btn:hover {
+  background: #1d4ed8;
+}
+
+.cancel-btn {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex: 1;
+}
+
+.cancel-btn:hover {
+  background: #e5e7eb;
+}
+
+/* AI Modal Actions */
+.ai-modal-actions {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-btn {
+  background: #f8fafc;
+  color: #374151;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-btn:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+.profile-btn:active {
+  transform: translateY(0);
 }
 
 .app-container {
@@ -1335,4 +1462,29 @@ body.dark-mode .dark-mode-toggle:hover {
 
 .footer {
   flex-shrink: 0;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .ai-modal {
+    max-width: 95vw;
+    margin: 1rem;
+    min-height: 350px;
+  }
+  
+  .ai-chat-button {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+    font-size: 1.25rem;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .profile-form {
+    gap: 0.75rem;
+  }
 }

@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Link, useLocation, useNavigate } from 'react-router-dom'
 import './App.css'
 import AIChatModal from './components/AIChatModal'
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, User } from 'firebase/auth';
+import { auth } from './firebase';
 
 // Type definitions
 interface BudgetResult {
@@ -148,6 +150,8 @@ function About(): React.JSX.Element {
   );
 }
 function Calculator(): React.JSX.Element {
+  const [result, setResult] = useState<BudgetResult | null>(null);
+
   const handleBudgetSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -155,23 +159,17 @@ function Calculator(): React.JSX.Element {
     
     if (isNaN(income) || income <= 0) {
       alert('Please enter a valid income amount');
+      setResult(null);
       return;
     }
 
-    const result: BudgetResult = {
+    const newResult: BudgetResult = {
       needs: income * 0.5,
       wants: income * 0.3,
       savings: income * 0.2
     };
 
-    // Update the results display
-    const needsElement = document.querySelector('.result-card:nth-child(1) p');
-    const wantsElement = document.querySelector('.result-card:nth-child(2) p');
-    const savingsElement = document.querySelector('.result-card:nth-child(3) p');
-
-    if (needsElement) needsElement.textContent = `$${result.needs.toFixed(2)}`;
-    if (wantsElement) wantsElement.textContent = `$${result.wants.toFixed(2)}`;
-    if (savingsElement) savingsElement.textContent = `$${result.savings.toFixed(2)}`;
+    setResult(newResult);
   };
 
   return (
@@ -188,17 +186,17 @@ function Calculator(): React.JSX.Element {
           <div className="results">
             <div className="result-card">
               <h3>Needs (50%)</h3>
-              <p>$0.00</p>
+              <p>${result ? result.needs.toFixed(2) : '0.00'}</p>
               <small>Housing, utilities, groceries, etc.</small>
             </div>
             <div className="result-card">
               <h3>Wants (30%)</h3>
-              <p>$0.00</p>
+              <p>${result ? result.wants.toFixed(2) : '0.00'}</p>
               <small>Entertainment, dining out, shopping, etc.</small>
             </div>
             <div className="result-card">
               <h3>Savings (20%)</h3>
-              <p>$0.00</p>
+              <p>${result ? result.savings.toFixed(2) : '0.00'}</p>
               <small>Emergency fund, investments, etc.</small>
             </div>
           </div>
@@ -208,11 +206,24 @@ function Calculator(): React.JSX.Element {
   );
 }
 function Goals(): React.JSX.Element {
+  const [goals, setGoals] = useState<Goal[]>([
+    {
+      id: '1',
+      name: 'New Laptop',
+      targetAmount: 1000,
+      currentAmount: 400,
+      deadline: '2025-06-01',
+      category: 'education'
+    }
+  ]);
+  const [filter, setFilter] = useState('all');
+
   const handleGoalSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     
-    const newGoal: Omit<Goal, 'id'> = {
+    const newGoal: Goal = {
+      id: Date.now().toString(),
       name: formData.get('goal-name') as string,
       targetAmount: parseFloat(formData.get('goal-amount') as string),
       currentAmount: 0,
@@ -220,11 +231,47 @@ function Goals(): React.JSX.Element {
       category: formData.get('goal-category') as Goal['category']
     };
 
-    // Here you would typically save to backend/localStorage
-    console.log('New goal:', newGoal);
-    alert('Goal added successfully!');
+    if (!newGoal.name || !newGoal.targetAmount || !newGoal.deadline || !newGoal.category) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    setGoals(prev => [...prev, newGoal]);
     e.currentTarget.reset();
   };
+
+  const handleDeleteGoal = (id: string): void => {
+    setGoals(prev => prev.filter(goal => goal.id !== id));
+  };
+
+  const handleUpdateProgress = (id: string): void => {
+    const goalToUpdate = goals.find(goal => goal.id === id);
+    if (!goalToUpdate) return;
+
+    const newAmountStr = prompt(`How much have you saved for "${goalToUpdate.name}"?`, goalToUpdate.currentAmount.toString());
+
+    if (newAmountStr === null) return; // User cancelled
+
+    const newAmount = parseFloat(newAmountStr);
+
+    if (isNaN(newAmount) || newAmount < 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    if (newAmount > goalToUpdate.targetAmount) {
+      alert("Amount cannot be greater than the target amount.");
+      return;
+    }
+
+    setGoals(prev => prev.map(goal => 
+      goal.id === id ? { ...goal, currentAmount: newAmount } : goal
+    ));
+  };
+
+  const filteredGoals = filter === 'all' 
+    ? goals 
+    : goals.filter(goal => goal.category === filter);
 
   return (
     <div className="container">
@@ -260,36 +307,38 @@ function Goals(): React.JSX.Element {
       <section className="goals-list-section">
         <h2>Your Goals</h2>
         <div className="goals-filter">
-          <button className="filter-btn active" data-filter="all">All</button>
-          <button className="filter-btn" data-filter="education">Education</button>
-          <button className="filter-btn" data-filter="emergency">Emergency</button>
-          <button className="filter-btn" data-filter="purchase">Purchase</button>
-          <button className="filter-btn" data-filter="debt">Debt</button>
-          <button className="filter-btn" data-filter="other">Other</button>
+          <button className={`filter-btn ${filter === 'all' ? 'active' : ''}`} onClick={() => setFilter('all')}>All</button>
+          <button className={`filter-btn ${filter === 'education' ? 'active' : ''}`} onClick={() => setFilter('education')}>Education</button>
+          <button className={`filter-btn ${filter === 'emergency' ? 'active' : ''}`} onClick={() => setFilter('emergency')}>Emergency</button>
+          <button className={`filter-btn ${filter === 'purchase' ? 'active' : ''}`} onClick={() => setFilter('purchase')}>Purchase</button>
+          <button className={`filter-btn ${filter === 'debt' ? 'active' : ''}`} onClick={() => setFilter('debt')}>Debt</button>
+          <button className={`filter-btn ${filter === 'other' ? 'active' : ''}`} onClick={() => setFilter('other')}>Other</button>
         </div>
         <div className="goals-grid">
-          <div className="goal-card">
-            <div className="goal-header">
-              <h3 className="goal-name">New Laptop</h3>
-              <span className="goal-category">Education</span>
-            </div>
-            <div className="goal-progress">
-              <div className="progress-bar">
-                <div className="progress-fill" style={{width: '40%'}}></div>
+          {filteredGoals.map(goal => (
+            <div className="goal-card" key={goal.id}>
+              <div className="goal-header">
+                <h3 className="goal-name">{goal.name}</h3>
+                <span className="goal-category">{goal.category}</span>
               </div>
-              <div className="progress-stats">
-                <span className="current-amount">$400</span>
-                <span className="target-amount">of $1000</span>
+              <div className="goal-progress">
+                <div className="progress-bar">
+                  <div className="progress-fill" style={{width: `${(goal.currentAmount / goal.targetAmount) * 100}%`}}></div>
+                </div>
+                <div className="progress-stats">
+                  <span className="current-amount">${goal.currentAmount}</span>
+                  <span className="target-amount">of ${goal.targetAmount}</span>
+                </div>
+              </div>
+              <div className="goal-details">
+                <p className="goal-deadline">Target: {goal.deadline}</p>
+                <div className="goal-actions">
+                  <button className="update-progress-btn" onClick={() => handleUpdateProgress(goal.id)}>Update Progress</button>
+                  <button className="delete-goal-btn" onClick={() => handleDeleteGoal(goal.id)}>Delete</button>
+                </div>
               </div>
             </div>
-            <div className="goal-details">
-              <p className="goal-deadline">Target: 2025-06-01</p>
-              <div className="goal-actions">
-                <button className="update-progress-btn">Update Progress</button>
-                <button className="delete-goal-btn">Delete</button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
     </div>
@@ -420,18 +469,28 @@ function Contact(): React.JSX.Element {
   );
 }
 function Login(): React.JSX.Element {
-  const handleLoginSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const [error, setError] = useState<string>('');
+
+  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+    setError('');
     const formData = new FormData(e.currentTarget);
     
-    const loginData: AuthFormData = {
-      email: formData.get('email') as string,
-      password: formData.get('password') as string
-    };
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
 
-    // Here you would typically authenticate with backend
-    console.log('Login attempt:', loginData);
-    alert('Login functionality coming soon!');
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      // User will be redirected by the auth state listener
+    } catch (err: any) {
+      setError(err.message);
+      console.error('Login error:', err);
+    }
   };
 
   return (
@@ -443,6 +502,7 @@ function Login(): React.JSX.Element {
           <input type="email" name="email" placeholder="Email" required />
           <input type="password" name="password" placeholder="Password" required />
           <button type="submit">Login</button>
+          {error && <p className="auth-message error">{error}</p>}
         </form>
         <p className="auth-toggle-link">
           Don't have an account? <Link to="/signup">Sign Up</Link>
@@ -452,18 +512,28 @@ function Login(): React.JSX.Element {
   );
 }
 function SignUp(): React.JSX.Element {
-  const handleSignUpSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const [error, setError] = useState<string>('');
+
+  const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+    setError('');
     const formData = new FormData(e.currentTarget);
     
-    const signUpData: AuthFormData = {
-      email: formData.get('email') as string,
-      password: formData.get('password') as string
-    };
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
 
-    // Here you would typically register with backend
-    console.log('Sign up attempt:', signUpData);
-    alert('Sign up functionality coming soon!');
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      // User will be redirected by the auth state listener
+    } catch (err: any) {
+      setError(err.message);
+      console.error('Sign up error:', err);
+    }
   };
 
   return (
@@ -475,6 +545,7 @@ function SignUp(): React.JSX.Element {
           <input type="email" name="email" placeholder="Email" required />
           <input type="password" name="password" placeholder="Password" required />
           <button type="submit">Sign Up</button>
+          {error && <p className="auth-message error">{error}</p>}
         </form>
         <p className="auth-toggle-link">
           Already have an account? <Link to="/login">Login</Link>
@@ -485,9 +556,35 @@ function SignUp(): React.JSX.Element {
 }
 
 function AppLayout(): React.JSX.Element {
-  const [aiOpen, setAiOpen] = useState<boolean>(false)
-  const showAI = useShowAIChat()
-  const isAuthPage = useIsAuthPage()
+  const [aiOpen, setAiOpen] = useState<boolean>(false);
+  const showAI = useShowAIChat();
+  const isAuthPage = useIsAuthPage();
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      setCurrentUser(user);
+      if (user) {
+        // If user is logged in, and on login/signup page, redirect to home
+        if (window.location.pathname === '/login' || window.location.pathname === '/signup') {
+          navigate('/');
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      // Redirect to home or login page after logout
+      navigate('/');
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  }
 
   return (
     <div className="app-container">
@@ -500,8 +597,17 @@ function AppLayout(): React.JSX.Element {
             <Link to="/calculator">Budget Calculator</Link>
             <Link to="/goals">Goals</Link>
             <Link to="/contact">Contact</Link>
-            <Link to="/login" className="nav-auth">Login</Link>
-            <Link to="/signup" className="nav-auth nav-signup">Sign Up</Link>
+            {currentUser ? (
+              <>
+                <span className="nav-user">{currentUser.email}</span>
+                <button onClick={handleLogout} className="nav-auth nav-logout">Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="nav-auth">Login</Link>
+                <Link to="/signup" className="nav-auth nav-signup">Sign Up</Link>
+              </>
+            )}
           </div>
         </nav>
       )}
